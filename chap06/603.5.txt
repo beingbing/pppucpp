@@ -1,0 +1,43 @@
+after running the program, we conclude that the program is outputting every third token, so, maybe the program is 
+eating some of our input without evaluating it?, and yes it does, for example in expression(), we saw - 
+
+double expression() {
+	double left = term();
+	Token t = get_token();
+
+	while(true) {
+		switch(t.kind) {
+			case '+': left += term();
+					  t = get_token();
+					  break;
+
+			case '-': left -= term();
+					  t = get_token();
+					  break;
+
+			default:
+					  return left;
+		}
+	}
+}
+
+when the token given by get_token(), is not '+' or '-', it just returns. We don't use that token and we don't
+store it anywhere for any other function to use later.
+
+This is where I think we went wrong, throwing away input given to us without utilising or determining what it is,
+is not a smart thing to do.
+
+and on looking further we realized that term() had the same problem, hence it explains why two tokens were eaten
+up, one by expression() and other by term().
+
+So, the problem which we discovered here is, Where to put that Token (t=get_token()) when the program doesn't need it.
+
+The first obvious answer that comes to our mind is, maybe wrong function reading that token, some other function is 
+supposed to be utilising it, so what we should do is, we should put it back, so that the other function can find it and
+use it. But in doing that we encounter a problem, the 'istream' reads characters not tokens, hence we need an input stream
+which interacts with the function in terms of tokens so that a token can be read from it and if not needed then can be
+put back to it as a token for some other function to be utilized.
+
+Hence, in conclusion, we are up to a task for creating out own stream of tokens called 'token_stream', which will have
+two functions, one for reading a token from it and other to put back a token back into the stream, there names will be
+get() and putback() respectively.

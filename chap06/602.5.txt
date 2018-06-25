@@ -1,0 +1,38 @@
+Our left-to-right approach was incomplete because it was scanning operator in a sequence, but as we know
+operation arithematic is done according to BODMAS rule, so we need to find a way, in which we can look ahead
+along the input expression, to find brackets, as they are the topmost priority, then, we will look for 
+divide symbol and so on, so in this approach we need to read whole input as we were doing before, but now 
+we will calculate the result on the basis of priority of operator.
+
+Thus we need the ability to look forward and find the operator of highest priority and solve it, then go on 
+like that in the order of decreasing priority of the operator.
+
+And a favourable answer to this hurdle is lets tokinize our input, up until now we were reading the character one
+by one from the input stream, performing operation on them, generating result, and then using that result as a 
+input for next operator, hence we weren't concerned up until now, as what operator may come next, but now we have 
+to keep their track, and a way of doing that is by treating each input as an independent unit i.e., to tokenize 
+them.
+
+A token by defination is a sequence of characters that represent something we consider a unit, such as a number 
+or an operator. So, let's define a token -
+	by observing our progress up until now, we know that we need three kinds of tokens -
+	1) Floating-point literals.
+	2) Opreators.
+	3) Parentheses.
+
+But how do we represent tokens like parentheses in our program ? For that we have to keep track of where each token 
+started or ended.
+
+Now to represent a token in theory is much easy, just by declaring those 3 types, we cleared our intend and approach 
+for this problem, but to represent this in code, we need to represent each token as a kind of (key, value) pair so 
+that we can keep track of every input.
+
+So the possible candidates for being a key are, number, operator, and parenthesis.
+
+Like basic data-type int, float etc., we need a type `Token`. Token is an example of a C++ user-defined type. It can 
+have a member function (operations) and along with that it can also contain data members. For Token, right now we 
+don't need to define functions because default ways of reading and writing members of a simple user-defined type 
+are provided.
+
+And to keep track of complete expression, feeded by the user, we can create a vector of Token. But to do that we need
+a function to read a token from input stream (i.e., cin). 
