@@ -18,7 +18,7 @@ int main() {
 		cout<<"Enter age again\n";
 		cin>>age;
 	}
-	cout<<"Dear, "<<name<<"\n";
+	cout<<"Dear "<<name<<",\n";
 	cout<<"\tHow are you? I am fine. I miss you.\n"
 	<<" Have you seen "<<frnd_name<<" lately? ";
 	if (sex == 'm') {
@@ -30,9 +30,9 @@ int main() {
 	<<age<<" years old.";
 	if ( age<12 ) {
 		cout<<" Next year you will be "<<age+1<<".\n";
-	} else if ( 12<age<17 ) {
+	} else if ( age == 17 ) {
 		cout<<" Next year you will be able to vote.\n";
-	} else if ( 17<age<70 ) {
+	} else if ( age>70 ) {
 		cout<<" Hope you are doing well.\n";
 	} else {
 		cout<<" I hope you are enjoying retirement.\n";
