@@ -3,7 +3,7 @@ using namespace std;
 
 int main () {
 	try {
-		cin<<"Success!\n";
+		cout<<"Success!\n";
 		return 0;
 	}
 	catch (exception& e) {
