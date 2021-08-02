@@ -2,8 +2,10 @@
 using namespace std;
 
 int main () {
-	for (int i=0;i<26;i++) {
-		cout<<char('a'+i)<< " | "<<'a'+i<<"\n";
+	int i=0;
+	while (i<26) {
+		cout<<char('a'+i) << '\t' << int('a'+i)<<"\n";
+		i++;
 	}
 	return 0;
 }

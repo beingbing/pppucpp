@@ -1,3 +1,5 @@
+// answer to drill #7, #8, #9, #10 and #11
+
 #include "std_lib_facilities.h"
 using namespace std;
 

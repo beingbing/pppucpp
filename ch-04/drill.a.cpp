@@ -1,5 +1,6 @@
+// answer to drill #1, #2, #3, #4 and #5
+
 #include "std_lib_facilities.h"
-using namespace std;
 
 constexpr double TOLERANCE = 1.0/100;
 
