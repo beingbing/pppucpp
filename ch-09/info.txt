@@ -1,0 +1,152 @@
+==================== 9.1 (User-defined types) ====================
+
+A type is called built-in type if a compiler knows how to represent it and what type of 
+operations can be performed on it, without being told by the programmer in the source code.
+
+A type which is not built-in is called user-defined type. Types are good for directly 
+representing idea in code.
+
+we define new types because of two reasons -
+1. Representation. A type "knows" how to represent the data needed in an object.
+2. Operations. A type "knows" what operation can be performed on object.
+
+If an object has data to represent its 'current state', and has a set operations that 
+can be applied on that object, then the result of operation depends on its current state.
+So, by using user-defined types we can represent an 'idea' or 'concept' in code as a data 
+structure plus a set of functions.
+
+C++ provides two user-defined types - 'class' and 'enum (enumeration)'.
+
+==================== 9.2 (classes and members) ====================
+
+The parts used to define the class are called members. A class may have zero or more 
+members. Members can be of various types, most are either data members, which define 
+the Representation of an object of the class, or function members, which provide operation 
+on such objects.
+
+==================== 9.3 (interface and implementation) ====================
+
+A class can be logically sub-divided into two partitions, -interface, and -implementation. 
+The interface it the part of the class's declaration that its uers access directly. The 
+implementation is that part of the class's declaration that its users access only indirectly
+through the interface. The interface is identified by the label 'public:' and its 
+implementation is identified by the label 'private:'.
+
+Class members are private by default.
+
+interface      => the user's view of the class.
+implementation => the implementer's view of the class.
+
+Note -> for something, that is just pure data, this distinction doesn't make much sense. 
+So, there is a useful simplified notion for a class that has no private implementation 
+details, it's called 'struct'. It's a class where members are public by default. They 
+are primarily used for data structures where the member can take any value; that is, we 
+can't define any meaningful invariant.
+
+==================== 9.4 (evolving a class) ====================
+
+---------- 9.4.1 (struct and helper functions) ----------
+
+we define a struct, we can do whatever we want now with it, as every member is public, we 
+can access them directly or modify as we wish for, but remember everything which is 
+manual and tedious is error-prone, what if we by mistake feed a wrong date, we don't 
+have any system in place to check our errors, which we make always, almost inevitably. 
+So we write some helper functions, we use them to do our excruciating works like, 
+initializing a date, or updating it, we are giving these responsibilities to a helper 
+function because, once, they are set and have a check to verify the validity of date, 
+it will take a burden off us of being always aware while updating dates, as to not get 
+them wrong by mistake.
+
+So, whenever we define a type, we want some operations for it. Exactly how many operations 
+we want and of which type will vary. Exactly how we provide them will also vary, but 
+whenever we decide to provide a type, we ask ourselves, "Which operation would we like for 
+this type?"
+
+---------- 9.4.2 (member functions and constructors) ----------
+
+When we create a 'Date' object and before we could initialize it by using init_date(), 
+someone used the object to print it's values, then what we get as output are some 
+garbage values, because we haven't assigned them or initialized the object, or in 
+another scenario assume that someone didn't knew about the init_date() and add_day() 
+functions and hence manually initialized an object and tried to modified it too, then 
+although nothing look wrong in that code but it's a ticking time bomb for errors, 
+because all our date validation checks were in init_date(), and we haven't used it, 
+what if the object's current state had last date of the month then on incrementing it 
+manually we again produced an invalid state.
+
+So, this kind of problems leads to demand for an initialization function that can't be 
+forgotten and for operations that can't be overlooked, to keep all this problems at bay 
+we use constructors and member functions.
+
+Member functions declared as the members of the class within class body. A member function 
+with the same name as its class is called constructor, and is used for initialization
+("construction") of objects of the class.
+
+It is an error - caught by the compiler - to forget to initialize an object of a class 
+that has a constructor that requires an argument.
+
+We can set checking code, to verify the validity of a date in constructor to always create 
+a valid date whenever we create an object for it.
+
+---------- 9.4.3 (Keep details private) ----------
+
+Although we made member functions but the date variable are still left accessible to the 
+users, hence they can still change them directly without using member functions, which 
+might generate invalid state, as no check is in place for that scenario, so we should 
+make the core representation details inaccessible to the user, hence we make them private.
+
+We try to design our types se that values are guarranteed to be valid; that is, we hide 
+the representation, provide a constructor that creates only valid objects, and design 
+all member functions to expect valid values and leave only valid values behind when they 
+return. The value of an object is often called its state, so the idea of a valid value is 
+often referred to as a valid state of an object.
+
+A rule for what constitutes a valid value is called an invariant. But, if we can't think 
+of a good invariant, we are probably dealing with plain data. If so, use a struct.
+
+---------- 9.4.4 (Defining member functions) ----------
+
+Tje compiler doesn't care about the order of class function and data members; it takes 
+the declarations in any order you care to present them.
+
+writing the definition of a member function within the class definition has three effects -
+
+- The function will be inline; that is, the compiler will try to generate code for the 
+function at each point of call rether than using function-call instructions to use 
+common code. This can be a significant performance advantage for functions.
+
+- All uses of the class will have to be recompiled whenever we make a change to the body 
+of an inlined function. If the function body is out of the class declaration, recompilation 
+users is needed only when the class declaration is itself changed. Not recompiling when the 
+body is changed can be a huge advantage in large programs.
+
+- The class definition gets larger. Consequently, it can be harder to find the members among 
+the member function definitions.
+
+Hence rule of thumb is - Dateon't put member function bodies in the class declaration unless 
+you know that you need the performance boost from inlining tiny functions. Large functions, 
+say five or more lines of code, don't benefit from inlining and make a class declaration 
+harder to read. We rerely inline a function that onsists of more than one or two expressions.
+
+---------- 9.4.5 (referring to the current object) ----------
+
+A class member function has an implicit argument which it uses to identify the object for 
+which it is called.
+
+---------- 9.4.6 (reporting errors) ----------
+
+==================== 9.5 (enumeration) ====================
+
+An enum is a very simple user-defined type, specifying its set of values as symbolic 
+constants.
+
+---------- 9.5.1 (plain enumeration) ----------
+
+In addition to the enum classes, also known as scoped enumeration, there are 'plain' 
+enumeration that differ from scoped enumertions by implicitly 'exporting' their 
+enumerators to the scope of the enumeration and allowing implicit conversions to int.
+
+==================== 9.6 (operator overloading) ====================
+
+==================== 9.7 (class interface) ====================
+
